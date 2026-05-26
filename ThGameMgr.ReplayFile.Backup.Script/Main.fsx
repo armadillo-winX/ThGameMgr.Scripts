@@ -60,4 +60,13 @@ if Directory.Exists(tempDirectoryPath) <> true then
 
 let gameNameDictionary = Configurator.loadThGameNameConfig thGameNameConfigFilePath
 
+while true do
+    printfn "操作を選択:"
+    printfn "[0] リプレイバックアップファイルをつくる"
+    printfn "[x] スクリプトを終了する"
 
+    let operationInput = Console.ReadLine()
+    match operationInput with
+    | "0" -> makeReplayBackup gameNameDictionary tempDirectoryPath binaryDirectoryPath
+    | "x" -> exit 0
+    |_-> printfn "入力が不正です．"
