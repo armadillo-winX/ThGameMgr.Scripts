@@ -36,7 +36,7 @@ let makeReplayBackupFile (replayBackupFileName: string) (replayBackupInfo: Repla
 let getReplayBackupFileInfo (replayBackupFilePath: string) =
     let rootEntry = Path.GetFileNameWithoutExtension(replayBackupFilePath)
     let archive = ZipFile.OpenRead(replayBackupFilePath)
-    let infoFileEntry = archive.GetEntry($"{rootEntry}/ReplayFileBackupInfo.xml")
+    let infoFileEntry = archive.GetEntry($"ReplayFileBackupInfo.xml")
     let stream = infoFileEntry.Open()
     let serializer = new XmlSerializer(typeof<ReplayFileBackupInfo>)
     serializer.Deserialize(stream) :?> ReplayFileBackupInfo
