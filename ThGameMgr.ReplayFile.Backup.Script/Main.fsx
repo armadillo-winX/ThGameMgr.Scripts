@@ -51,6 +51,7 @@ if result = true then
         BackupName = backupName
         Timestamp = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
         Comment = comment
+        ApplicationName = Version.name
     }
     ReplayFileBackup.makeReplayBackupFile replayBackupFileName replayBackupInfo tempDirectoryPath binaryDirectoryPath
 else
