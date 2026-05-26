@@ -1,0 +1,4 @@
+bin/
+temp/
+*.dat
+scoreConfig.txt
