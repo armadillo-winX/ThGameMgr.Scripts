@@ -12,6 +12,7 @@ type ReplayFileBackupInfo = {
     [<XmlElement("BackupName")>] BackupName: string
     [<XmlElement("Timestamp")>] Timestamp: string
     [<XmlElement("Comment")>] Comment: string
+    [<XmlElement("ApplicationName")>] ApplicationName: string
 }
 
 let makeReplayFileBackupInfoFile (replayBackupInfo: ReplayFileBackupInfo) (baseDirectory: string) =
