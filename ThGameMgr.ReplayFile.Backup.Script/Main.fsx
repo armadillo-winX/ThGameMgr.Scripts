@@ -49,7 +49,7 @@ if result = true then
         GameName = gameName
         SourceReplayFilePath = replayFilePath
         BackupName = backupName
-        Timestamp = timestamp
+        Timestamp = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
         Comment = comment
     }
     ReplayFileBackup.makeReplayBackupFile timestamp replayBackupInfo tempDirectoryPath binaryDirectoryPath
