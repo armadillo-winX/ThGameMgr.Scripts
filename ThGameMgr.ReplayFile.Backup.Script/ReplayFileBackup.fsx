@@ -32,3 +32,11 @@ let makeReplayBackupFile (replayBackupFileName: string) (replayBackupInfo: Repla
     makeReplayFileBackupInfoFile replayBackupInfo backupTempDirectory
     let outputFilepath = Path.Combine(outputDirectory, $"{replayBackupFileName}.trpb")
     ZipFile.CreateFromDirectory(backupTempDirectory, outputFilepath)
+
+let getReplayBackupFileInfo (replayBackupFilePath: string) =
+    let rootEntry = Path.GetFileNameWithoutExtension(replayBackupFilePath)
+    let archive = ZipFile.OpenRead(replayBackupFilePath)
+    let infoFileEntry = archive.GetEntry($"{rootEntry}/ReplayFileBackupInfo.xml")
+    let stream = infoFileEntry.Open()
+    let serializer = new XmlSerializer(typeof<ReplayFileBackupInfo>)
+    serializer.Deserialize(stream) :?> ReplayFileBackupInfo
