@@ -34,6 +34,21 @@ let makeReplayBackup (gameNameDictionary: Dictionary<string, string>) (tempDirec
         printfn "入力が不正です．"
         exit -1
 
+let getReplayBackupInfo (binaryDirectoryPath: string) =
+    let backupFiles = Directory.GetFiles(binaryDirectoryPath, "*.trpb", SearchOption.TopDirectoryOnly)
+    if backupFiles.Length > 0 then
+        for backupFile in backupFiles do
+            let replayBackupInfo = ReplayFileBackup.getReplayBackupFileInfo backupFile
+            printfn "Game ID: %s" replayBackupInfo.GameId
+            printfn "ゲーム名: %s" replayBackupInfo.GameName
+            printfn "バックアップ作成元: %s" replayBackupInfo.SourceReplayFilePath
+            printfn "バックアップの名前: %s" replayBackupInfo.BackupName
+            printfn "タイムスタンプ: %s" replayBackupInfo.Timestamp
+            printfn "コメント: %s" replayBackupInfo.Comment
+            printfn "アプリケーション名: %s" replayBackupInfo.ApplicationName
+    else
+        printfn "バックアップファイルがありません"
+
 // The Main Entry as follow
 let scriptDirectory = __SOURCE_DIRECTORY__
 let thGameNameConfigFilePath = Path.Combine(scriptDirectory, "ThGameNameConfig.json")
