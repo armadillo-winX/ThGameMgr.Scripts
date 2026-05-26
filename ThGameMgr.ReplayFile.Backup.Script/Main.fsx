@@ -42,7 +42,7 @@ if result = true then
     let backupName = Console.ReadLine()
     printfn "コメントを入力:"
     let comment = Console.ReadLine()
-    let timestamp  = DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")
+    let replayBackupFileName  = DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")
     
     let replayBackupInfo: ReplayFileBackup.ReplayFileBackupInfo = {
         GameId = gameId
@@ -52,7 +52,7 @@ if result = true then
         Timestamp = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
         Comment = comment
     }
-    ReplayFileBackup.makeReplayBackupFile timestamp replayBackupInfo tempDirectoryPath binaryDirectoryPath
+    ReplayFileBackup.makeReplayBackupFile replayBackupFileName replayBackupInfo tempDirectoryPath binaryDirectoryPath
 else
     printfn "入力が不正です．"
     exit -1
