@@ -3,7 +3,36 @@
 #load ReplayFileBackup.fsx
 
 open System
+open System.Collections.Generic
 open System.IO
+
+let makeReplayBackup (gameNameDictionary: Dictionary<string, string>) (tempDirectoryPath: string) (binaryDirectoryPath: string) =
+    printfn "Game ID を入力:"
+    let input = Console.ReadLine()
+    let result, gameName = gameNameDictionary.TryGetValue(input)
+    if result = true then
+        let gameId = input
+        printfn "リプレイファイルのパスを入力:"
+        let replayFilePath = Console.ReadLine()
+        printfn "バックアップの名前を入力:"
+        let backupName = Console.ReadLine()
+        printfn "コメントを入力:"
+        let comment = Console.ReadLine()
+        let replayBackupFileName  = DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")
+
+        let replayBackupInfo: ReplayFileBackup.ReplayFileBackupInfo = {
+            GameId = gameId
+            GameName = gameName
+            SourceReplayFilePath = replayFilePath
+            BackupName = backupName
+            Timestamp = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+            Comment = comment
+            ApplicationName = Version.name
+        }
+        ReplayFileBackup.makeReplayBackupFile replayBackupFileName replayBackupInfo tempDirectoryPath binaryDirectoryPath
+    else
+        printfn "入力が不正です．"
+        exit -1
 
 // The Main Entry as follow
 let scriptDirectory = __SOURCE_DIRECTORY__
@@ -31,29 +60,4 @@ if Directory.Exists(tempDirectoryPath) <> true then
 
 let gameNameDictionary = Configurator.loadThGameNameConfig thGameNameConfigFilePath
 
-printfn "Game ID を入力:"
-let input = Console.ReadLine()
-let result, gameName = gameNameDictionary.TryGetValue(input)
-if result = true then
-    let gameId = input
-    printfn "リプレイファイルのパスを入力:"
-    let replayFilePath = Console.ReadLine()
-    printfn "バックアップの名前を入力:"
-    let backupName = Console.ReadLine()
-    printfn "コメントを入力:"
-    let comment = Console.ReadLine()
-    let replayBackupFileName  = DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss")
-    
-    let replayBackupInfo: ReplayFileBackup.ReplayFileBackupInfo = {
-        GameId = gameId
-        GameName = gameName
-        SourceReplayFilePath = replayFilePath
-        BackupName = backupName
-        Timestamp = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
-        Comment = comment
-        ApplicationName = Version.name
-    }
-    ReplayFileBackup.makeReplayBackupFile replayBackupFileName replayBackupInfo tempDirectoryPath binaryDirectoryPath
-else
-    printfn "入力が不正です．"
-    exit -1
+
