@@ -60,8 +60,8 @@ let extractBackup (binaryDirectoryPath: string) =
         let input = Console.ReadLine()
         let result, inputInt = Int32.TryParse(input)
         if result = true then
-            if i < backupFiles.Length then
-                let selectedFile = backupFiles[i]
+            if inputInt < backupFiles.Length then
+                let selectedFile = backupFiles[inputInt]
                 printfn "復元する先のディレクトリを入力:"
                 let inputDir = Console.ReadLine()
                 ReplayFileBackup.extractBackupFile selectedFile inputDir
