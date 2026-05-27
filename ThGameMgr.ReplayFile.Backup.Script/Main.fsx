@@ -103,11 +103,13 @@ while true do
     printfn "操作を選択:"
     printfn "[0] リプレイバックアップファイルをつくる"
     printfn "[1] リプレイバックアップファイルの情報を取得"
+    printfn "[2] リプレイバックアップから復元"
     printfn "[x] スクリプトを終了する"
 
     let operationInput = Console.ReadLine()
     match operationInput with
     | "0" -> makeReplayBackup gameNameDictionary tempDirectoryPath binaryDirectoryPath
     | "1" -> getReplayBackupInfo binaryDirectoryPath
+    | "2" -> extractBackup binaryDirectoryPath
     | "x" -> exit 0
     |_-> printfn "入力が不正です．"
