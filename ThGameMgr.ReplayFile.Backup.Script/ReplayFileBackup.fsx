@@ -45,5 +45,5 @@ let extractBackupFile (replayBackupFilePath: string) (outputDirectory: string) =
     let replayBackupInfo = getReplayBackupFileInfo(replayBackupFilePath)
     let archive  = ZipFile.OpenRead(replayBackupFilePath)
     let replayFileEntry = $"rpy/{Path.GetFileName(replayBackupInfo.SourceReplayFilePath)}" |> archive.GetEntry
-    let outputFilePath = Path.Combine(outputDirectory, Path.GetFileName(replayBackupFilePath))
+    let outputFilePath = Path.Combine(outputDirectory, Path.GetFileName(replayBackupInfo.SourceReplayFilePath))
     replayFileEntry.ExtractToFile(outputFilePath, true)
