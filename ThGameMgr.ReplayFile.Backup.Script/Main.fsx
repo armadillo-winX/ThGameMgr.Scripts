@@ -49,6 +49,30 @@ let getReplayBackupInfo (binaryDirectoryPath: string) =
     else
         printfn "バックアップファイルがありません"
 
+let extractBackup (binaryDirectoryPath: string) =
+    let backupFiles = Directory.GetFiles(binaryDirectoryPath, "*.trpb", SearchOption.TopDirectoryOnly)
+    if backupFiles.Length > 0 then
+        let mutable i = 0
+        for backupFile in backupFiles do
+            Path.GetFileName(backupFile) |> printfn "[%d] %s" i
+            i <- i + 1
+        printfn "リプレイファイルを選択:"
+        let input = Console.ReadLine()
+        let result, inputInt = Int32.TryParse(input)
+        if result = true then
+            if i < backupFiles.Length then
+                let selectedFile = backupFiles[i]
+                printfn "復元する先のディレクトリを入力:"
+                let inputDir = Console.ReadLine()
+                ReplayFileBackup.extractBackupFile selectedFile inputDir
+                printfn "リプレイファイルを復元しました．"
+            else
+                printfn "入力が不正です．"
+        else
+            printfn "入力が不正です．"
+    else
+        printfn "バックアップファイルがありません"
+
 // The Main Entry as follow
 let scriptDirectory = __SOURCE_DIRECTORY__
 let thGameNameConfigFilePath = Path.Combine(scriptDirectory, "ThGameNameConfig.json")
