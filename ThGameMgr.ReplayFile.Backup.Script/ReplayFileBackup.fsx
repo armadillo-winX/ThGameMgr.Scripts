@@ -40,3 +40,10 @@ let getReplayBackupFileInfo (replayBackupFilePath: string) =
     let stream = infoFileEntry.Open()
     let serializer = new XmlSerializer(typeof<ReplayFileBackupInfo>)
     serializer.Deserialize(stream) :?> ReplayFileBackupInfo
+
+let extractBackupFile (replayBackupFilePath: string) (outputDirectory: string) =
+    let replayBackupInfo = getReplayBackupFileInfo(replayBackupFilePath)
+    let archive  = ZipFile.OpenRead(replayBackupFilePath)
+    let replayFileEntry = $"rpy/{Path.GetFileName(replayBackupInfo.SourceReplayFilePath)}" |> archive.GetEntry
+    let outputFilePath = Path.Combine(outputDirectory, Path.GetFileName(replayBackupFilePath))
+    replayFileEntry.ExtractToFile(outputFilePath, true)
